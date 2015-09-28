@@ -40,3 +40,10 @@ git clone https://github.com/nownabe/examples.git
 cd examples/reactjs-example-1
 npm install
 ```
+
+## Run
+Run gulp:
+
+```bash
+gulp
+```
