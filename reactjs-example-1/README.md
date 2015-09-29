@@ -8,8 +8,8 @@ Install [anyenv](https://github.com/riywo/anyenv):
 
 ```bash
 git clone https://github.com/riywo/anyenv ~/.anyenv
-echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.your_profile
-echo 'eval "$(anyenv init -)"' >> ~/.your_profile
+echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(anyenv init -)"' >> ~/.bash_profile
 exec $SHELL -l
 ```
 
@@ -17,6 +17,7 @@ Install [ndenv](https://github.com/riywo/ndenv):
 
 ```bash
 anyenv install ndenv
+exec $SHELL -l
 ```
 
 Install Node.js:
