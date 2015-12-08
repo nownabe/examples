@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+if ARGV[0] =~ /-h/
+  puts "Usage: bin/slave [port]"
+  exit
+end
+
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+require "load_slave/runner"
+
+LoadSlave::Runner.new(port: ARGV[0] || 55331).run

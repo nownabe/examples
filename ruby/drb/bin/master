@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+if ARGV[0] =~ /-h/
+  puts "Usage: bin/master url requests concurrency config_file"
+  exit
+end
+
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+require "load_master/runner"
+
+url, requests, concurrency, config_file = ARGV
+LoadMaster::Runner.new(
+  url,
+  requests,
+  concurrency,
+  config_file
+).run
