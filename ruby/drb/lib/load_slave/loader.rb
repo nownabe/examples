@@ -1,4 +1,5 @@
 require "drb"
+require "load_master/test"
 
 module LoadSlave
   class Loader
@@ -6,12 +7,10 @@ module LoadSlave
 
     AB_BINARY = "/usr/sbin/ab"
 
-    attr_reader :url, :requests, :concurrency
+    attr_reader :test
 
-    def initialize(url, requests, concurrency)
-      @url         = url
-      @requests    = requests
-      @concurrency = concurrency
+    def initialize(test)
+      @test = test
     end
 
     def execute
@@ -28,7 +27,7 @@ module LoadSlave
     private
 
     def command
-      "#{AB_BINARY} -n #{requests} -c #{concurrency} #{url}"
+      "#{AB_BINARY} -n #{test.requests} -c #{test.concurrency} #{test.url}"
     end
   end
 end

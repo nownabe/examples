@@ -9,11 +9,7 @@ module LoadMaster
 
     def load(test)
       Parallel.map(@slaves) do |slave|
-        slave.generate_loader(
-          test.url,
-          test.requests,
-          test.concurrency
-        ).execute
+        slave.generate_loader(test).execute
       end
     end
   end
