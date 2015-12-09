@@ -7,8 +7,12 @@ module LoadMaster
       @slaves = drb_uris.map { |uri| DRbObject.new_with_uri(uri) }
     end
 
+    def count
+      @slaves.count
+    end
+
     def load(test)
-      Parallel.map(@slaves) do |slave|
+      Parallel.map(@slaves, in_threads: count) do |slave|
         slave.generate_loader(test).execute
       end
     end
