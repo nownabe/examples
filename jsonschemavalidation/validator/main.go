@@ -2,40 +2,39 @@ package main
 
 import (
 	"fmt"
-	"time"
 
-	uuid "github.com/satori/go.uuid"
 	"gopkg.in/go-playground/validator.v9"
 )
 
-type notification struct {
-	UUID    string    `validate:"required,uuid4"`
-	Content string    `validate:"required"`
-	Created time.Time `validate:"required"`
+type User struct {
+	Username string `validate:"required,printascii,max=16"`
+	Name     string
+	Email    string `validate:"required,email"`
+	Age      int    `validate:"min=0"`
 }
 
 func main() {
 	v := validator.New()
 
 	fmt.Println("---- valid values")
-	n := notification{
-		UUID:    uuid.NewV4().String(),
-		Content: `{}`,
-		Created: time.Now(),
+	u := User{
+		Username: "valid user",
+		Email:    "valid@example.com",
+		Age:      20,
 	}
-	if err := v.Struct(n); err == nil {
+	if err := v.Struct(u); err == nil {
 		fmt.Println("Valid!")
 	} else {
 		fmt.Println("Invalid!", err)
 	}
 
 	fmt.Println("---- invalid values")
-	n = notification{
-		UUID:    "invalid",
-		Content: `{}`,
-		Created: time.Now(),
+	u = User{
+		Username: "invalid user",
+		Email:    "invalid",
+		Age:      20,
 	}
-	if err := v.Struct(n); err == nil {
+	if err := v.Struct(u); err == nil {
 		fmt.Println("Valid!")
 	} else {
 		fmt.Println("Invalid!", err)

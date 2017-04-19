@@ -2,42 +2,51 @@ package main
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/go-playground/validator"
-	uuid "github.com/satori/go.uuid"
 	"github.com/xeipuuv/gojsonschema"
 )
 
-type notification struct {
-	UUID    string    `validate:"required,uuid4"`
-	Content string    `validate:"required,jsonschema"`
-	Created time.Time `validate:"required"`
+type User struct {
+	Username string `validate:"required,printascii,max=16"`
+	Profile  string `validate:"required,jsonschema=profile"`
 }
+
+const profileSchema = `
+{
+	"type":"object",
+	"properties":{
+		"age": {
+			"type":"integer",
+			"minimum":0
+		}
+	}
+}
+`
+
+var schema = map[string]string{"profile": profileSchema}
 
 func main() {
 	v := validator.New()
 	v.RegisterValidation("jsonschema", isValidJSON)
 
 	fmt.Println("---- valid values")
-	n := notification{
-		UUID:    uuid.NewV4().String(),
-		Content: `"string"`,
-		Created: time.Now(),
+	u := User{
+		Username: "valid user",
+		Profile:  `{"age":20}`,
 	}
-	if err := v.Struct(n); err == nil {
+	if err := v.Struct(u); err == nil {
 		fmt.Println("Valid!")
 	} else {
 		fmt.Println("Invalid!", err)
 	}
 
 	fmt.Println("---- invalid values")
-	n = notification{
-		UUID:    uuid.NewV4().String(),
-		Content: `{}`,
-		Created: time.Now(),
+	u = User{
+		Username: "invalid user",
+		Profile:  `{"age":-666}`,
 	}
-	if err := v.Struct(n); err == nil {
+	if err := v.Struct(u); err == nil {
 		fmt.Println("Valid!")
 	} else {
 		fmt.Println("Invalid!", err)
@@ -45,9 +54,10 @@ func main() {
 }
 
 func isValidJSON(fl validator.FieldLevel) bool {
-	schemaLoader := gojsonschema.NewStringLoader(`{"type":"string"}`)
-
 	json := fl.Field().String()
+	field := fl.Param()
+
+	schemaLoader := gojsonschema.NewStringLoader(schema[field])
 	jsonLoader := gojsonschema.NewStringLoader(json)
 
 	result, _ := gojsonschema.Validate(schemaLoader, jsonLoader)
