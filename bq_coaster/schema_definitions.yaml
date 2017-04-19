@@ -1,0 +1,19 @@
+event_type:
+event_id:
+  _type: integer
+
+user:
+  id:
+    _type: integer
+  name:
+    screen_name:
+    first_name:
+    last_name:
+  role:
+  age:
+    _type: integer
+    _original_type: String
+
+timestamp:
+  _type: timestamp
+  _convert: "%s / 1000"
