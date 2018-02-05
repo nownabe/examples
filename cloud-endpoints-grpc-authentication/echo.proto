@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package echo;
+option go_package = "main";
+
+service EchoService {
+  rpc Echo1 (Request) returns (Response) {}
+  rpc Echo2 (Request) returns (Response) {}
+  rpc Echo3 (Request) returns (Response) {}
+  rpc Echo4 (Request) returns (Response) {}
+}
+
+message Request {
+  string message = 1;
+}
+
+message Response {
+  string message = 1;
+}
