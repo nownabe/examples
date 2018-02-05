@@ -1,0 +1,40 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: echo
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        service: echo
+    spec:
+      containers:
+        - name: esp
+          image: gcr.io/endpoints-release/endpoints-runtime:1
+          imagePullPolicy: Always
+          args: [
+            "-P", "9000",
+            "-a", "grpc://127.0.0.1:50051",
+            "-s", "echo.endpoints.cloud-endpoints-grpc-auth.cloud.goog",
+            "-v", "2018-02-05r0",
+          ]
+          ports:
+            - containerPort: 9000
+        - name: echo
+          image: gcr.io/cloud-endpoints-grpc-auth/echo
+          ports:
+            - containerPort: 50051
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: echo
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 9000
+      protocol: TCP
+  selector:
+    service: echo

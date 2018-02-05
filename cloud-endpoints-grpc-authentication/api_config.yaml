@@ -1,0 +1,32 @@
+type: google.api.Service
+config_version: 3
+
+name: echo.endpoints.cloud-endpoints-grpc-auth.cloud.goog
+
+title: Echo API
+apis:
+  - name: echo.EchoService
+
+usage:
+  rules:
+    - selector: "echo.EchoService.Echo1"
+      allow_unregistered_calls: true
+    - selector: "echo.EchoService.Echo2"
+      allow_unregistered_calls: true
+    - selector: "echo.EchoService.Echo3"
+      allow_unregistered_calls: false
+    - selector: "echo.EchoService.Echo4"
+      allow_unregistered_calls: false
+
+authentication:
+  providers:
+    - id: client1
+      issuer: client1@cloud-endpoints-grpc-auth.iam.serviceaccount.com
+      jwks_uri: https://www.googleapis.com/robot/v1/metadata/x509/client1@cloud-endpoints-grpc-auth.iam.gserviceaccount.com
+  rules:
+    - selector: "echo.EchoService.Echo2"
+      requirements:
+        - provider_id: client1
+    - selector: "echo.EchoService.Echo4"
+      requirements:
+        - provider_id: client1
