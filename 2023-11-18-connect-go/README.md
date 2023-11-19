@@ -38,9 +38,13 @@ go run ./cmd/client/main.go
 
 ```shell
 $ evans --reflection --host 127.0.0.1 --port 8080 repl
+greet.v1.GreetService@127.0.0.1:8080> show package
+greet.v1.GreetService@127.0.0.1:8080> show service
+greet.v1.GreetService@127.0.0.1:8080> show message
 greet.v1.GreetService@127.0.0.1:8080> call Greet
 name (TYPE_STRING) => Jane
 {
   "greeting": "Hello, Jane!"
 }
+greet.v1.GreetService@127.0.0.1:8080> exit
 ```
