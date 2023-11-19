@@ -1,0 +1,15 @@
+title: greet.v1.GreetService/Greet
+plugins:
+  greetserviceclient: greetserviceclient.so
+steps:
+  - title: Greet
+    protocol: gRPC
+    request:
+      client: '{{ plugins.greetserviceclient.NewGreetServiceClient() }}'
+      method: Greet
+      body:
+        name: Jane
+    expect:
+      code: 0
+      body:
+        greeting: Hello, Jane!

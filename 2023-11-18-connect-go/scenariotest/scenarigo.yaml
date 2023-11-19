@@ -1,0 +1,12 @@
+schemaVersion: config/v1
+scenarios:
+  - scenarios
+
+pluginDirectory: ./gen
+plugins:
+  greetserviceclient.so:
+    src: ./plugins/greetserviceclient
+
+output:
+  verbose: true
+  colored: true

@@ -48,3 +48,24 @@ name (TYPE_STRING) => Jane
 }
 greet.v1.GreetService@127.0.0.1:8080> exit
 ```
+
+## Scenario Test
+
+Install scenarigo:
+
+```shell
+go install github.com/zoncoen/scenarigo/cmd/scenarigo@latest
+```
+
+Build plugins:
+
+```shell
+cd scenariotest
+scenarigo plugin build
+```
+
+Run scenarios:
+
+```shell
+scenarigo run
+```
